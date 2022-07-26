@@ -11,8 +11,8 @@ const register = async(req, res) =>{
     if (emailAreadyExist){
         throw new CustomError.BadRequestError("Email already exists")
     }
+    
     // first registered user is an admin
-
     const isFirstAccount = await User.countDocuments({}) === 0;
     const role = isFirstAccount ? 'admin' : 'user';
 
