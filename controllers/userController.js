@@ -1,25 +1,26 @@
-const User = require("../models/User")
-const CustomError = require("../errors")
-const {StatusCodes} = require("http-status-codes")
-const {createTokenUser, attachCookiesToResponse} = require("../utils")
+const User = require("../models/User");
+const CustomError = require("../errors");
+const {StatusCodes} = require("http-status-codes");
+const {createTokenUser, attachCookiesToResponse, checkPermissions} = require("../utils");
 
 
 const getAllUsers = async (req, res) =>{
-    const users = await User.find({role:'user'}).select('-password')
-    res.status(StatusCodes.OK).json({users})
+    const users = await User.find({role:'user'}).select('-password');
+    res.status(StatusCodes.OK).json({users});
 }
 
 const getSingleUser = async (req, res) => {
-    const user = await User.findOne({_id: req.params.id}).select('-password')
+    const user = await User.findOne({_id: req.params.id}).select('-password');
     if (!user){
-        throw new CustomError.CustomAPIError(`No user with id: ${req.params.id}`)
+        throw new CustomError.CustomAPIError(`No user with id: ${req.params.id}`);
     }
-    res.status(StatusCodes.OK).json({user})
+    checkPermissions(req.user, user._id);
+    res.status(StatusCodes.OK).json({user});
 }
 
 
 const showCurrentUser = async (req, res) =>{
-    res.status(StatusCodes.OK).json({user: req.user})
+    res.status(StatusCodes.OK).json({user: req.user});
 }
 
 const updateUser = async(req, res) =>{
@@ -27,14 +28,14 @@ const updateUser = async(req, res) =>{
     if (!name || !email){
         throw new CustomError.BadRequestError("Please provide both values");
     }
-    const user = await User.findOne({_id: req.usser.userId});
+    const user = await User.findOne({_id: req.user.userId});
     user.email = email;
     user.name = name;
     await user.save();
 
     const tokenUser = createTokenUser(user);
     attachCookiesToResponse({res, user:tokenUser});
-    res.status(StatusCodes.Ok).json({user: tokenUser});
+    res.status(StatusCodes.OK).json({user: tokenUser});
 
 
 }
@@ -62,7 +63,7 @@ module.exports = {
     showCurrentUser,
     updateUser,
     updateUserPassword,
-}
+};
 
 // Alternative update user with findOneAndUpdate
 // const updateUser = async (req, res) => {
