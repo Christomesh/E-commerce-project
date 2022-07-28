@@ -7,3 +7,5 @@ const checkPermissions = (requestUser, resourcesUserId) =>{
 };
 
 module.exports = checkPermissions;
+
+// Here user can only access his profile with is userId.
