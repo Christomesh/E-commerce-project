@@ -16,3 +16,5 @@ const {
     router.patch('/:id', updateProduct);
     router.delete('/:id', deleteProduct);
     router.post('/uploadImage', uploadImage)
+
+    module.exports = router;
