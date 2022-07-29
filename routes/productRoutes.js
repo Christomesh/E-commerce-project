@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { authenticateUser, authorizePermissions } = require("../middleware/authentication");
 
 const {
     createProduct,
@@ -9,7 +10,8 @@ const {
     deleteProduct,
     uploadImage,
     }  = require("../controllers/productController");
-const { authenticateUser, authorizePermissions } = require("../middleware/authentication");
+
+
 
 router.get('/', getAllProducts);
 router.get('/:id', getSingleProduct);
