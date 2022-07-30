@@ -1,22 +1,22 @@
 
 
-const getAllOrders = async() =>{
+const getAllOrders = async(req, res) =>{
     res.send("get all orders")
 }
 
-const getSingleOrder = async() =>{
+const getSingleOrder = async(req, res) =>{
     res.send("get single orders")
 }
 
-const getCurrentUserOrders = async() =>{
+const getCurrentUserOrders = async(req, res) =>{
     res.send("get current user orders")
 }
 
-const createOrder = async() =>{
+const createOrder = async(req, res) =>{
     res.send("create orders")
 }
 
-const updateOrder = async() =>{
+const updateOrder = async(req, res) =>{
     res.send("update orders")
 }
 
