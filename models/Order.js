@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const sincegleOrderItemSchema = mongoose.Schema({
+const SingleOrderItemSchema = mongoose.Schema({
     name: { type: String, required: true },
     image: { type: String, required: true },
     price: { type: Number, required: true },
